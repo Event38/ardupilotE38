@@ -23,7 +23,7 @@ void Plane::failsafe_short_on_event(enum failsafe_state fstype)
         if(g.short_fs_action == 2) {
             set_mode(FLY_BY_WIRE_A);
         } else {
-            set_mode(CIRCLE);
+            set_mode(RTL);  //change short failsafe from CIRCLE to RTL -Daniel Cironi 2015-01-16
         }
         break;
 
@@ -36,7 +36,7 @@ void Plane::failsafe_short_on_event(enum failsafe_state fstype)
             if(g.short_fs_action == 2) {
                 set_mode(FLY_BY_WIRE_A);
             } else {
-                set_mode(CIRCLE);
+                set_mode(RTL);  //change short failsafe from CIRCLE to RTL -Daniel Cironi 2015-01-16
             }
         }
         break;
@@ -102,7 +102,7 @@ void Plane::failsafe_short_off_event()
 
     // re-read the switch so we can return to our preferred mode
     // --------------------------------------------------------
-    if (control_mode == CIRCLE && failsafe.saved_mode_set) {
+    if (control_mode == RTL && failsafe.saved_mode_set) {   //check for RTL rather than CIRCLE, due to change above -Daniel Cironi 2015-01-16
         failsafe.saved_mode_set = 0;
         set_mode(failsafe.saved_mode);
     }

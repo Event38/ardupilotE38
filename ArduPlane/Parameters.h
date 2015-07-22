@@ -139,6 +139,7 @@ public:
         k_param_rudder_only,
         k_param_gcs3,            // 93
         k_param_gcs_pid_mask,
+		k_param_rudder_corr,
 
         // 100: Arming parameters
         k_param_arming = 100,
@@ -484,6 +485,7 @@ public:
     AP_Int8 override_channel;
 #endif
     AP_Int16 gcs_pid_mask;
+	AP_Int16 rudder_corr;
 
     // RC channels
     RC_Channel rc_1;

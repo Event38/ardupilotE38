@@ -981,6 +981,13 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Group: GPS_
     // @Path: ../libraries/AP_GPS/AP_GPS.cpp
     GOBJECT(gps, "GPS_", AP_GPS),
+	
+	// @Param: rudder_corr
+	// @DisplayName: rudder_corr
+	// @Description: adding rudder deflection
+	// @Range : -4500 4500
+	// @User: Standard
+	GSCALAR(rudder_corr, "RUDDER_CORR", RUDDER_CORR_DEFAULT),
 
 #if CAMERA == ENABLED
     // @Group: CAM_

@@ -459,6 +459,10 @@
 #define CLI_ENABLED DISABLED
 #endif
 
+#ifndef RUDDER_CORR_DEFAULT
+ # define RUDDER_CORR_DEFAULT              -45 
+#endif
+
 /*
   build a firmware version string.
   GIT_VERSION comes from Makefile builds

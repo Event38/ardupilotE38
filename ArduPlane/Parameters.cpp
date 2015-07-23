@@ -984,10 +984,17 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
 	
 	// @Param: rudder_corr
 	// @DisplayName: rudder_corr
-	// @Description: adding rudder deflection
-	// @Range : -4500 4500
+	// @Description: adding rudder deflection to the left
+	// @Range : -45 0
 	// @User: Standard
 	GSCALAR(rudder_corr, "RUDDER_CORR", RUDDER_CORR_DEFAULT),
+	
+	// @Param: elevator_add
+	// @DisplayName: elevator_add
+	// @Description: adding elevator deflection upwards
+	// @Range : 0 45
+	// @User: Standard
+	GSCALAR(elevator_add, "ELEVATOR_ADD", ELEVATOR_ADD_DEFAULT),
 
 #if CAMERA == ENABLED
     // @Group: CAM_

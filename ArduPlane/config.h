@@ -463,6 +463,10 @@
  # define RUDDER_CORR_DEFAULT              -45 
 #endif
 
+#ifndef ELEVATOR_ADD_DEFAULT
+ # define ELEVATOR_ADD_DEFAULT              45 
+#endif
+
 /*
   build a firmware version string.
   GIT_VERSION comes from Makefile builds

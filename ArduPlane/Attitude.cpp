@@ -109,6 +109,9 @@ void Plane::stabilize_pitch(float speed_scaler)
     channel_pitch->servo_out = pitchController.get_servo_out(demanded_pitch - ahrs.pitch_sensor, 
                                                              speed_scaler, 
                                                              disable_integrator);
+	channel_pitch->servo_out = channel_pitch->servo_out;
+	channel_pitch->servo_out += channel_throttle->servo_out * g.elevator_add;
+	channel_pitch->servo_out = constrain_int16(channel_pitch->servo_out,-4500,4500);
 }
 
 /*

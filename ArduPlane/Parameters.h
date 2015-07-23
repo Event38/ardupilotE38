@@ -140,6 +140,7 @@ public:
         k_param_gcs3,            // 93
         k_param_gcs_pid_mask,
 		k_param_rudder_corr,
+		k_param_elevator_add,
 
         // 100: Arming parameters
         k_param_arming = 100,
@@ -486,6 +487,8 @@ public:
 #endif
     AP_Int16 gcs_pid_mask;
 	AP_Int16 rudder_corr;
+	AP_Int16 elevator_add;
+	
 
     // RC channels
     RC_Channel rc_1;

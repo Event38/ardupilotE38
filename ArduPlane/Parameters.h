@@ -142,6 +142,8 @@ public:
         k_param_land_offset,
         k_param_land_slope,
         k_param_pitch_limit_min_approach_cd,
+        k_param_approach_thr_pwm,
+        k_param_land_thr_pwm,
 
         // 100: Arming parameters
         k_param_arming = 100,
@@ -490,7 +492,9 @@ public:
     AP_Int16 land_offset; //horizontally offset landing glide slope target
     AP_Float land_slope;  //user defined land glide slope
     AP_Float pitch_limit_min_approach_cd; //min pitch angle for landing approach
-
+    AP_Int16 approach_thr_pwm; //throttle PWM value during landing approach
+    AP_Int16 land_thr_pwm; //throttle PWM during final stage of landing (after flare)
+    
     // RC channels
     RC_Channel rc_1;
     RC_Channel rc_2;

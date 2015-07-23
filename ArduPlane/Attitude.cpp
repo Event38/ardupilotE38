@@ -398,7 +398,21 @@ void Plane::calc_throttle()
         return;
     }
 
-    channel_throttle->servo_out = SpdHgt_Controller->get_throttle_demand();
+    //allow us to use reverse thrust only during approach and/or landing
+    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH)
+    {
+        channel_throttle->servo_out = g.approach_thr_pwm;
+    }
+    else if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL)
+    {
+        channel_throttle->servo_out = g.land_thr_pwm;
+    } 
+    //otherwise use normal calculation
+    else
+    {
+        channel_throttle->servo_out = SpdHgt_Controller->get_throttle_demand();
+    }
+    
 }
 
 /*****************************************

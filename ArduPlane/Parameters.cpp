@@ -92,6 +92,22 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @User: Advanced
     GSCALAR(land_slope,           "LAND_SLOPE",     0),
     
+    // @Param: APPR_THR_PWM
+    // @DisplayName: Approach Throttle Value
+    // @Description: The PWM level of the throttle during landing approach
+    // @Range: 0 10000
+    // @Increment: 1
+    // @User: Standard
+    GSCALAR(approach_thr_pwm,      "APPR_THR_PWM",   0),
+    
+    // @Param: LAND_THR_PWM
+    // @DisplayName: Final Landing Throttle Value
+    // @Description: The PWM level of the throttle during the final stage of landing
+    // @Range: 0 10000
+    // @Increment: 1
+    // @User: Standard
+    GSCALAR(land_thr_pwm,      "LAND_THR_PWM",   0),
+    
     // @Param: KFF_RDDRMIX
     // @DisplayName: Rudder Mix
     // @Description: The amount of rudder mix to apply during aileron movement 0 = 0 %, 1 = 100%

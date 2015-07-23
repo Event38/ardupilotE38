@@ -139,6 +139,9 @@ public:
         k_param_rudder_only,
         k_param_gcs3,            // 93
         k_param_gcs_pid_mask,
+        k_param_land_offset,
+        k_param_land_slope,
+        k_param_pitch_limit_min_approach_cd,
 
         // 100: Arming parameters
         k_param_arming = 100,
@@ -484,6 +487,9 @@ public:
     AP_Int8 override_channel;
 #endif
     AP_Int16 gcs_pid_mask;
+    AP_Int16 land_offset; //horizontally offset landing glide slope target
+    AP_Float land_slope;  //user defined land glide slope
+    AP_Float pitch_limit_min_approach_cd; //min pitch angle for landing approach
 
     // RC channels
     RC_Channel rc_1;

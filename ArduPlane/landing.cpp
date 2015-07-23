@@ -172,17 +172,30 @@ void Plane::setup_landing_glide_slope(void)
             flare_distance = total_distance/2;
         }
 
+        //also add offset from LAND_OFFSET parameter -D Cironi 2015-07-21
+        flare_distance = flare_distance;
+        
         // now calculate our aim point, which is before the landing
         // point and above it
         location_update(loc, land_bearing_cd*0.01f, -flare_distance);
         loc.alt += aim_height*100;
 
+        float landing_slope = 0.0;
+        
         // calculate slope to landing point
-        float land_slope = (sink_height - aim_height) / total_distance;
-
+        // modified by D Cironi 2015-07-22
+        if(g.land_slope != 0) //use a user defined slope if one is provided
+        {
+            landing_slope = g.land_slope;
+        }
+        else //use the original landing slope calculation minus landing offset to determine slope
+        {
+            landing_slope = (sink_height - aim_height) / (total_distance - g.land_offset); //slope is determined by user parameter
+        }
+        
         // calculate point along that slope 500m ahead
         location_update(loc, land_bearing_cd*0.01f, land_projection);
-        loc.alt -= land_slope * land_projection * 100;
+        loc.alt -= landing_slope * land_projection * 100;
 
         // setup the offset_cm for set_target_altitude_proportion()
         target_altitude.offset_cm = loc.alt - prev_WP_loc.alt;

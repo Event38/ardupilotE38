@@ -20,7 +20,7 @@
  */
 
 #include <AP_Param.h>
-
+#define PITCH_LIMIT_MIN_APPROACH_CD_DEFAULT         -45
 class AP_Vehicle {
 
 public:
@@ -41,6 +41,7 @@ public:
         AP_Int16 land_pitch_cd;
         AP_Float land_flare_sec;
         AP_Int8  stall_prevention;
+        AP_Float pitch_limit_min_approach_cd;
     };
 
     /*

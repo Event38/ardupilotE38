@@ -486,7 +486,16 @@ void Plane::calc_nav_pitch()
     // Calculate the Pitch of the plane
     // --------------------------------
     nav_pitch_cd = SpdHgt_Controller->get_pitch_demand();
-    nav_pitch_cd = constrain_int32(nav_pitch_cd, pitch_limit_min_cd, aparm.pitch_limit_max_cd.get());
+    
+    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH) //constrain differently if in landing approach
+    {
+        nav_pitch_cd = constrain_int32(nav_pitch_cd, 100, aparm.pitch_limit_max_cd.get());
+    }
+    else //constrain like normal
+    {
+        nav_pitch_cd = constrain_int32(nav_pitch_cd, pitch_limit_min_cd, aparm.pitch_limit_max_cd.get());
+    }
+    
 }
 
 

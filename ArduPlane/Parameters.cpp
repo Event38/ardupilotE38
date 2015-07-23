@@ -78,6 +78,20 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Bitmask: 0:Roll,1:Pitch,2:Yaw
     GSCALAR(gcs_pid_mask,           "GCS_PID_MASK",     0),
 
+    // @Param: LAND_OFFSET
+    // @DisplayName: Landing Point Offset
+    // @Description: Used to offset the landing glide slope target point so that landings are more accurate (Positive value will cause a closer landing glide slope target)
+    // @User: Advanced
+    // @Units: meters
+    // @Increment: 1
+    GSCALAR(land_offset,           "LAND_OFFSET",     0),
+    
+    // @Param: LAND_SLOPE
+    // @DisplayName: Land Glide Slope
+    // @Description: User defined landing approch glide slope (vertical distance/horizontal distance)
+    // @User: Advanced
+    GSCALAR(land_slope,           "LAND_SLOPE",     0),
+    
     // @Param: KFF_RDDRMIX
     // @DisplayName: Rudder Mix
     // @Description: The amount of rudder mix to apply during aileron movement 0 = 0 %, 1 = 100%
@@ -666,7 +680,16 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Increment: 1
     // @User: Standard
     ASCALAR(pitch_limit_min_cd,     "LIM_PITCH_MIN",  PITCH_MIN_CENTIDEGREE),
-
+    
+    // @Param: APP_PITCH_MIN
+    // @DisplayName: Minimum Approach Pitch Angle
+    // @Description: The minimum pitch down angle during landing approach
+    // @Units: centi-Degrees
+    // @Range: -9000 0
+    // @Increment: 1
+    // @User: Standard
+    ASCALAR(pitch_limit_min_approach_cd,     "APP_PITCH_MIN",  PITCH_MIN_CENTIDEGREE),
+    
     // @Param: ACRO_ROLL_RATE
     // @DisplayName: ACRO mode roll rate
     // @Description: The maximum roll rate at full stick deflection in ACRO mode

@@ -171,9 +171,6 @@ void Plane::setup_landing_glide_slope(void)
         if (flare_distance > total_distance/2) {
             flare_distance = total_distance/2;
         }
-
-        //also add offset from LAND_OFFSET parameter -D Cironi 2015-07-21
-        flare_distance = flare_distance;
         
         // now calculate our aim point, which is before the landing
         // point and above it

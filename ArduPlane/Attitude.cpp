@@ -398,21 +398,7 @@ void Plane::calc_throttle()
         return;
     }
 
-    //allow us to use reverse thrust only during approach and/or landing
-    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH)
-    {
-        channel_throttle->servo_out = g.approach_thr_pwm;
-    }
-    else if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL)
-    {
-        channel_throttle->servo_out = g.land_thr_pwm;
-    } 
-    //otherwise use normal calculation
-    else
-    {
-        channel_throttle->servo_out = SpdHgt_Controller->get_throttle_demand();
-    }
-    
+    channel_throttle->servo_out = SpdHgt_Controller->get_throttle_demand();
 }
 
 /*****************************************
@@ -501,9 +487,9 @@ void Plane::calc_nav_pitch()
     // --------------------------------
     nav_pitch_cd = SpdHgt_Controller->get_pitch_demand();
     
-    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH) //constrain differently if in landing approach
+    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH && g.pitch_limit_min_approach_cd != 0) //constrain differently if in landing approach
     {
-        nav_pitch_cd = constrain_int32(nav_pitch_cd, 100, aparm.pitch_limit_max_cd.get());
+        nav_pitch_cd = constrain_int32(nav_pitch_cd, g.pitch_limit_min_approach_cd, aparm.pitch_limit_max_cd.get());
     }
     else //constrain like normal
     {
@@ -880,7 +866,19 @@ void Plane::set_servos(void)
                                                       min_throttle,
                                                       max_throttle);
 
-        if (!hal.util->get_soft_armed()) {
+        
+
+        //Add conditionals that will allow us to force the throttle PWM below the normal minimum
+        //so that we can use a reverse throttle during approach and landing - D Cironi 2015-07-30
+        if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH && control_mode == AUTO)
+        {
+            channel_throttle->radio_out = g.approach_thr_pwm;  //set throttle to our parameter value
+        }
+        else if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL && control_mode == AUTO)
+        {
+            channel_throttle->radio_out = g.land_thr_pwm;  //set throttle to our parameter value
+        }
+        else if (!hal.util->get_soft_armed()) {
             channel_throttle->servo_out = 0;
             channel_throttle->calc_pwm();                
         } else if (suppress_throttle()) {

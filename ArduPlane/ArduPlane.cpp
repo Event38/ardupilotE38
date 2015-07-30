@@ -491,11 +491,13 @@ void Plane::handle_auto_mode(void)
         }
         calc_throttle();
         
+        /* We don't use this so that we can have negative thrust values during the flare -D Cironi 2015-07-23
         if (auto_state.land_complete) {
             // we are in the final stage of a landing - force
             // zero throttle
             channel_throttle->servo_out = 0;
         }
+        */
         break;
         
     default:

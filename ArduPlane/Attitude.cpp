@@ -736,7 +736,7 @@ void Plane::set_servos_idle(void)
 void Plane::set_servos(void)
 {
     int16_t last_throttle = channel_throttle->radio_out;
-
+    
     if (control_mode == AUTO && auto_state.idle_mode) {
         // special handling for balloon launch
         set_servos_idle();
@@ -870,15 +870,16 @@ void Plane::set_servos(void)
 
         //Add conditionals that will allow us to force the throttle PWM below the normal minimum
         //so that we can use a reverse throttle during approach and landing - D Cironi 2015-07-30
-        if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH && control_mode == AUTO)
+        /* if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH && control_mode == AUTO)
         {
             channel_throttle->radio_out = g.approach_thr_pwm;  //set throttle to our parameter value
         }
         else if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL && control_mode == AUTO)
         {
             channel_throttle->radio_out = g.land_thr_pwm;  //set throttle to our parameter value
-        }
-        else if (!hal.util->get_soft_armed()) {
+        } */
+        //
+        if (!hal.util->get_soft_armed()) {
             channel_throttle->servo_out = 0;
             channel_throttle->calc_pwm();                
         } else if (suppress_throttle()) {

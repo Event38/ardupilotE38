@@ -809,8 +809,8 @@ void Plane::update_alt()
 void Plane::update_flight_stage(void)
 {
     // Update the speed & height controller states
-    if (auto_throttle_mode && !throttle_suppressed) {        
-        if (control_mode==AUTO) {
+    if (auto_throttle_mode){ // && !throttle_suppressed) {   //removed this to prevent flight_stage from no tupdating after the throttle is suppressed on landing      
+        if (control_mode==AUTO) {                           //however this may cause the throttle to not suppress on landing
             if (auto_state.takeoff_complete == false) {
                 set_flight_stage(AP_SpdHgtControl::FLIGHT_TAKEOFF);
             } else if (mission.get_current_nav_cmd().id == MAV_CMD_NAV_LAND && 

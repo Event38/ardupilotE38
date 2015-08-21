@@ -45,7 +45,7 @@ bool Plane::verify_land()
 #endif
     if (height <= g.land_flare_alt ||
         (aparm.land_flare_sec > 0 && height <= auto_state.sink_rate * aparm.land_flare_sec) ||
-        (!rangefinder_in_range && location_passed_point(current_loc, prev_WP_loc, next_WP_loc)) ||
+        //(!rangefinder_in_range && location_passed_point(current_loc, prev_WP_loc, next_WP_loc)) ||
         (fabsf(auto_state.sink_rate) < 0.2f && !is_flying())) {
 
         if (!auto_state.land_complete) {
@@ -100,7 +100,7 @@ void Plane::disarm_if_autoland_complete()
     if (g.land_disarm_delay > 0 && 
         auto_state.land_complete && 
         !is_flying() && 
-        arming.arming_required() != AP_Arming::NO &&
+        //arming.arming_required() != AP_Arming::NO && //removed this - D Cironi 2015-08-21
         arming.is_armed()) {
         /* we have auto disarm enabled. See if enough time has passed */
         if (millis() - auto_state.last_flying_ms >= g.land_disarm_delay*1000UL) {

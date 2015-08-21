@@ -78,35 +78,91 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Bitmask: 0:Roll,1:Pitch,2:Yaw
     GSCALAR(gcs_pid_mask,           "GCS_PID_MASK",     0),
 
-    // @Param: LAND_OFFSET
+    // @Param: Z_LAND_OFFSET
     // @DisplayName: Landing Point Offset
     // @Description: Used to offset the landing glide slope target point so that landings are more accurate (Positive value will cause a closer landing glide slope target)
     // @User: Advanced
     // @Units: meters
     // @Increment: 1
-    GSCALAR(land_offset,           "LAND_OFFSET",     0),
+    GSCALAR(land_offset,           "Z_LAND_OFFSET",     0),
     
-    // @Param: LAND_SLOPE
+    // @Param: Z_LAND_SLOPE
     // @DisplayName: Land Glide Slope
     // @Description: User defined landing approch glide slope (vertical distance/horizontal distance)
     // @User: Advanced
-    GSCALAR(land_slope,           "LAND_SLOPE",     0),
+    GSCALAR(land_slope,           "Z_LAND_SLOPE",     0),
     
-    // @Param: APPR_THR_PWM
+    // @Param: Z_APPR_THR_PWM
     // @DisplayName: Approach Throttle Value
     // @Description: The PWM level of the throttle during landing approach
     // @Range: 0 10000
     // @Increment: 1
     // @User: Standard
-    GSCALAR(approach_thr_pwm,      "APPR_THR_PWM",   0),
+    GSCALAR(approach_thr_pwm,      "Z_APPR_THR_PWM",   0),
     
-    // @Param: LAND_THR_PWM
+    // @Param: Z_LAND_THR_PWM
     // @DisplayName: Final Landing Throttle Value
     // @Description: The PWM level of the throttle during the final stage of landing
     // @Range: 0 10000
     // @Increment: 1
     // @User: Standard
-    GSCALAR(land_thr_pwm,      "LAND_THR_PWM",   0),
+    GSCALAR(land_thr_pwm,      "Z_LAND_THR_PWM",   0),
+    
+    // @Param: Z_MAX_REV_PWM
+    // @DisplayName: Max reverse throttle PWM
+    // @Description: PWM value that gives 100% reverse throttle
+    // @Range: 0 10000
+    // @Increment: 1
+    // @User: Standard
+    GSCALAR(max_rev_pwm,      "Z_MAX_REV_PWM",   0),
+    
+    // @Param: Z_MIN_REV_PWM
+    // @DisplayName: Min reverse throttle PWM
+    // @Description: PWM value that gives 0% reverse throttle
+    // @Range: 0 10000
+    // @Increment: 1
+    // @User: Standard
+    GSCALAR(min_rev_pwm,      "Z_MIN_REV_PWM",   0),
+    
+    // @Param: Z_ZERO_REV_PT_DN
+    // @DisplayName: Zero reverse throttle point DOWN
+    // @Description: At this amount of altitude error from the land slope that we use the least amount of reverse throttle (this happens when we are below our land slope)
+    // @Range: 0 10000
+    // @Increments: 1
+    // @User: Standard
+    GSCALAR(zero_rev_pt_dn,      "Z_ZERO_REV_PT_DN",   0),
+    
+     // @Param: Z_ZERO_REV_PT_UP
+    // @DisplayName: Zero reverse throttle point UP
+    // @Description: At this amount of altitude error from the land slope that we use the most amount of reverse throttle (this happens when we are above our land slope)
+    // @Range: 0 10000
+    // @Increments: 1
+    // @User: Standard
+    GSCALAR(zero_rev_pt_up,      "Z_ZERO_REV_PT_UP",   0),
+    
+    // @Param: Z_LAND_ELE_DEG
+    // @DisplayName: Elevator deflection during landing
+    // @Description: Elevator deflection in degrees during final landing stage
+    // @Range: -45 45
+    // @Increments: 1
+    // @User: Standard
+    GSCALAR(land_ele_deg,      "Z_LAND_ELE_DEG",   0),
+    
+    // @Param: Z_PRE_FLARE_THR
+    // @DisplayName: Throttle just before flare
+    // @Description: PWM value of throttle just before the flare
+    // @Range: 0 10000
+    // @Increments: 1
+    // @User: Standard
+    GSCALAR(pre_flare_thr,      "Z_PRE_FLARE_THR",   0),
+    
+    // @Param: Z_PRE_FLARE_ALT
+    // @DisplayName: Pre-flare altitude
+    // @Description: At what altitude will we prepare for the flare.
+    // @Range: 0 10000
+    // @Increments: 1
+    // @User: Standard
+    GSCALAR(pre_flare_alt,      "Z_PRE_FLARE_ALT",   0),
     
     // @Param: KFF_RDDRMIX
     // @DisplayName: Rudder Mix

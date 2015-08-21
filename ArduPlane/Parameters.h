@@ -54,6 +54,8 @@ public:
 
         // Misc
         //
+        k_param_zero_rev_pt_dn, //D Cironi 3
+        k_param_zero_rev_pt_up, //D Cironi 4
         k_param_auto_trim      = 10,
         k_param_log_bitmask_old,  // unused
         k_param_pitch_trim_cd,
@@ -142,8 +144,8 @@ public:
         k_param_land_offset,
         k_param_land_slope,
         k_param_pitch_limit_min_approach_cd,
-        k_param_approach_thr_pwm,
-        k_param_land_thr_pwm,
+        k_param_approach_thr_pwm, //D Cironi
+        k_param_land_thr_pwm,     //D Cironi
 
         // 100: Arming parameters
         k_param_arming = 100,
@@ -323,6 +325,12 @@ public:
         k_param_pidNavPitchAltitude, // unused
         k_param_pidWheelSteer, // unused
 
+        k_param_max_rev_pwm,    //D Cironi 248
+        k_param_min_rev_pwm,    //D Cironi 249
+        k_param_land_ele_deg,   //D Cironi 250
+        k_param_pre_flare_thr,  //D Cironi 251
+        k_param_pre_flare_alt,  //D Cironi 252
+        
         // 254,255: reserved
     };
 
@@ -494,6 +502,13 @@ public:
     AP_Float pitch_limit_min_approach_cd; //min pitch angle for landing approach
     AP_Int16 approach_thr_pwm; //throttle PWM value during landing approach
     AP_Int16 land_thr_pwm; //throttle PWM during final stage of landing (after flare)
+    AP_Int16 max_rev_pwm; //pwm value that gives 100% reverse throttle
+    AP_Int16 min_rev_pwm; //pwm value that gives 0% reverse throttle
+    AP_Int16 zero_rev_pt_dn; //How many centimeters below target altitude we should be before giving as little reverse throttle as possible
+    AP_Int16 zero_rev_pt_up; //How many centimeters above target altitude we should be before giving as much reverse throttle as possible
+    AP_Float land_ele_deg; //deflection of elevator during final flare stage     
+    AP_Int16 pre_flare_thr; //throttle just before the flare
+    AP_Int16 pre_flare_alt; //altitude at which we set pre-flare throttle
     
     // RC channels
     RC_Channel rc_1;

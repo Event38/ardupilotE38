@@ -747,7 +747,7 @@ int16_t Plane::bat_level_pwm_offset(void)
     else
     {
         float batteryLevel = (battery.voltage() - 14.8) / (16.8 - 14.8);
-        pwmOffset = g.max_rev_pwm + (100 * batteryLevel);
+        pwmOffset = (100 * batteryLevel);
     }
     
     return pwmOffset;
@@ -763,7 +763,11 @@ int16_t Plane::calculate_approach_throttle(void)
     //g.max_rev_pwm = full reverse throttle
     //g.min_rev_pwm = no reverse throttle
     
-    int16_t reverse_pwm_range = g.min_rev_pwm - g.max_rev_pwm;
+    //change the maximum amount of reverse throttle based on battery level
+    //this is necessary because a full battery leads to a much harsher reverse throttle at the same PWM levels - D Cironi 2015-08-20
+    adjustedMaxReversePWM = g.max_rev_pwm + bat_level_pwm_offset();
+    
+    int16_t reverse_pwm_range = g.min_rev_pwm - adjustedMaxReversePWM;
     float error_proportion = 0;
     
     //this will be used to set a specific throttle just before the flare point
@@ -772,10 +776,6 @@ int16_t Plane::calculate_approach_throttle(void)
         throttle_out_pwm = g.pre_flare_thr;
         return throttle_out_pwm;
     }
-    
-    //change the maximum amount of reverse throttle based on battery level
-    //this is necessary because a full battery leads to a much harsher reverse throttle at the same PWM levels - D Cironi 2015-08-20
-    adjustedMaxReversePWM = g.max_rev_pwm + bat_level_pwm_offset();
     
 /*  if(alt_error <= 0) //we are above or at our target altitude
     {
@@ -800,12 +800,12 @@ int16_t Plane::calculate_approach_throttle(void)
     if(alt_error <= 0) //we are above our target altitude
     {
         error_proportion = alt_error / g.zero_rev_pt_up; //g.zero_rev_pt_up is the altitude error from glide slope that we use the most amount of reverse throttle (this happens when we are above our land slope)
-        throttle_out_pwm = adjustedMaxReversePWM + (reverse_pwm_range * error_proportion); //error proportion will be negative here
+        throttle_out_pwm = g.min_rev_pwm + (reverse_pwm_range * error_proportion); //error proportion will be negative here
     }
     else //we are below our target altitude
     {
         error_proportion = alt_error / g.zero_rev_pt_dn; //g.zero_rev_pt_dn is the altitude error from glide slope that we use the least amount of reverse throttle (this happens when we are below our land slope)
-        throttle_out_pwm = g.min_rev_pwm + (reverse_pwm_range * error_proportion); //we will scale how much reverse throttle to use based on how far below the glide slope we are
+        throttle_out_pwm = adjustedMaxReversePWM + (reverse_pwm_range * error_proportion); //we will scale how much reverse throttle to use based on how far below the glide slope we are
     }
     
     throttle_out_pwm = constrain_int16(throttle_out_pwm, adjustedMaxReversePWM, g.min_rev_pwm); //stay within min and max reverse values (min is higher than max)

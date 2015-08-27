@@ -772,6 +772,7 @@ bool Plane::disarm_motors(void)
     }
     //if (arming.arming_required() == A-P_Arming::YES_ZERO_PWM) { //removed - D Cironi 2015-08-21
     channel_throttle->disable_out(); 
+    channel_throttle->radio_out = g.throttle_min.get(); ; //just force the motor to 0% throttle - D Cironi 2015-08-27
     //}
     if (control_mode != AUTO) {
         // reset the mission on disarm if we are not in auto
@@ -779,9 +780,9 @@ bool Plane::disarm_motors(void)
     }
 
     // suppress the throttle in auto-throttle modes
-    throttle_suppressed = auto_throttle_mode;
-    
-    //only log if disarming was successful
+    throttle_suppressed = auto_throttle_mode;    
+   
+   //only log if disarming was successful
     change_arm_state();
 
     return true;

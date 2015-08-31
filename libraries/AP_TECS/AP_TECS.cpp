@@ -183,6 +183,15 @@ const AP_Param::GroupInfo AP_TECS::var_info[] PROGMEM = {
 	// @Increment: 1
 	// @User: Advanced
     AP_GROUPINFO("LAND_PMAX", 20, AP_TECS, _land_pitch_max, 10),
+    
+    // @Param: A_PIT_MIN
+    // @DisplayName: Minimum Approach Pitch Angle
+    // @Description: The minimum pitch down angle during landing approach
+    // @Units: centi-Degrees
+    // @Range: -9000 0
+    // @Increment: 1
+    // @User: Standard
+    AP_GROUPINFO("A_PIT_MIN",  21,  AP_TECS, pitch_limit_min_approach_cd, -45),
 
     AP_GROUPEND
 };
@@ -800,11 +809,18 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
 	} else {
 		_PITCHmaxf = min(_pitch_max, aparm.pitch_limit_max_cd * 0.01f);
 	}
-	if (_pitch_min >= 0) {
-		_PITCHminf = aparm.pitch_limit_min_cd * 0.01f;
-	} else {
-		_PITCHminf = max(_pitch_min, aparm.pitch_limit_min_cd * 0.01f);
-	}
+    if(flight_stage == FLIGHT_LAND_APPROACH) //allow a different limit for landing approach -D Cironi 2015-08-31
+    {
+        _PITCHminf = -4100 * 0.01f; //I need to make this a parameter if it works
+    }
+    else
+    {
+        if (_pitch_min >= 0) {
+            _PITCHminf = aparm.pitch_limit_min_cd * 0.01f;
+        } else {
+            _PITCHminf = max(_pitch_min, aparm.pitch_limit_min_cd * 0.01f);
+        }
+    }
     if (flight_stage == FLIGHT_LAND_FINAL) {
         // in flare use min pitch from LAND_PITCH_CD
         _PITCHminf = max(_PITCHminf, aparm.land_pitch_cd * 0.01f);

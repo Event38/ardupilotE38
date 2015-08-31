@@ -156,14 +156,14 @@ void Plane::ahrs_update()
     // calculate a scaled roll limit based on current pitch
     roll_limit_cd = g.roll_limit_cd * cosf(ahrs.pitch);
     //if we are landing or approaching landing we want to use a different pitch limit - D Cironi 2015-08-25
-    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH || flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL)
-    {
-        pitch_limit_min_cd = g.pitch_limit_min_approach_cd;
-    }
-    else
-    {
+    // if((flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH || flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL) && g.pitch_limit_min_approach_cd.get() != -1)
+    // {
+        // pitch_limit_min_cd = g.pitch_limit_min_approach_cd.get();
+    // }
+    // else
+    // {
         pitch_limit_min_cd = aparm.pitch_limit_min_cd * fabsf(cosf(ahrs.roll));
-    }
+    // }
 
     // updated the summed gyro used for ground steering and
     // auto-takeoff. Dot product of DCM.c with gyro vector gives earth

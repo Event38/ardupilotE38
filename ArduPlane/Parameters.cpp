@@ -753,14 +753,14 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @User: Standard
     ASCALAR(pitch_limit_min_cd,     "LIM_PITCH_MIN",  PITCH_MIN_CENTIDEGREE),
     
-    // @Param: APP_PITCH_MIN
+    // @Param: A_PIT_MIN
     // @DisplayName: Minimum Approach Pitch Angle
     // @Description: The minimum pitch down angle during landing approach
     // @Units: centi-Degrees
     // @Range: -9000 0
     // @Increment: 1
     // @User: Standard
-    ASCALAR(pitch_limit_min_approach_cd,     "APP_PITCH_MIN",  PITCH_MIN_CENTIDEGREE),
+    ASCALAR(pitch_limit_min_approach_cd,     "A_PIT_MIN",  -45),
     
     // @Param: ACRO_ROLL_RATE
     // @DisplayName: ACRO mode roll rate

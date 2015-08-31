@@ -29,8 +29,11 @@
 #include <AP_SpdHgtControl.h>
 #include <DataFlash.h>
 
+#define A_PIT_MIN       -4100
+
 class AP_TECS : public AP_SpdHgtControl {
 public:
+
 	AP_TECS(AP_AHRS &ahrs, const AP_Vehicle::FixedWing &parms) :
 		_ahrs(ahrs),
 		aparm(parms)
@@ -285,6 +288,9 @@ private:
 
 	// current time constant
 	float timeConstant(void) const;
+    
+    //variable for different pitch during land approach -D Cironi 2015-08-31
+    AP_Float pitch_limit_min_approach_cd;
 };
 
 #define TECS_LOG_FORMAT(msg) { msg, sizeof(AP_TECS::log_TECS_Tuning),	\

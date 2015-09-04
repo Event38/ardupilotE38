@@ -985,6 +985,22 @@ void Plane::set_servos(void)
             {
                 channel_throttle->radio_out = calculate_approach_throttle();  //calculate based on altitude error, same as approach
             }
+            
+            //this will turn off the throttle when we are on the ground
+            if (g.land_disarm_delay > 0 && 
+                auto_state.land_complete && 
+                !is_flying())
+            {
+                if (millis() - auto_state.last_flying_ms >= g.land_disarm_delay*1000UL) 
+                {
+                    if (disarm_motors()) 
+                    {
+                       gcs_send_text_P(SEVERITY_LOW,PSTR("Auto-Disarmed"));
+                    }
+                    channel_throttle->radio_out = 1300; //turn off throttle --D Cironi 2015-09-02
+                }
+            } 
+            //
         } 
         //
         else if (!hal.util->get_soft_armed()) {

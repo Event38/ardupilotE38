@@ -809,17 +809,10 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
 	} else {
 		_PITCHmaxf = min(_pitch_max, aparm.pitch_limit_max_cd * 0.01f);
 	}
-    if(flight_stage == FLIGHT_LAND_APPROACH) //allow a different limit for landing approach -D Cironi 2015-08-31
-    {
-        _PITCHminf = -4100 * 0.01f; //aparm.pitch_limit_min_approach_cd * 0.01f;
-    }
-    else
-    {
-        if (_pitch_min >= 0) {
-            _PITCHminf = aparm.pitch_limit_min_cd * 0.01f;
-        } else {
-            _PITCHminf = max(_pitch_min, aparm.pitch_limit_min_cd * 0.01f);
-        }
+    if (_pitch_min >= 0) {
+        _PITCHminf = aparm.pitch_limit_min_cd * 0.01f;
+    } else {
+        _PITCHminf = max(_pitch_min, aparm.pitch_limit_min_cd * 0.01f);
     }
     if (flight_stage == FLIGHT_LAND_FINAL) {
         // in flare use min pitch from LAND_PITCH_CD
@@ -832,24 +825,29 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
         
         // and allow zero throttle
         _THRminf = 0;
-    } else if (flight_stage == FLIGHT_LAND_APPROACH && (-_climb_rate) > _land_sink) {
-        // constrain the pitch in landing as we get close to the flare
-        // point. Use a simple linear limit from 15 meters after the
-        // landing point
-        float time_to_flare = (- hgt_afe / _climb_rate) - aparm.land_flare_sec;
-        if (time_to_flare < 0) {
-            // we should be flaring already
-            _PITCHminf = max(_PITCHminf, aparm.land_pitch_cd * 0.01f);
-        } else if (time_to_flare < timeConstant()*2) {
-            // smoothly move the min pitch to the flare min pitch over
-            // twice the time constant
-            float p = time_to_flare/(2*timeConstant());
-            float pitch_limit_cd = p*aparm.pitch_limit_min_cd + (1-p)*aparm.land_pitch_cd;
+    }     
+    else if (flight_stage == FLIGHT_LAND_APPROACH) { //modified this - D Cironi 2015-09-08
+        _PITCHminf = -4100 * 0.01f; //will change to parameter if this works, both here and lower in this function
+        if((-_climb_rate) > _land_sink)
+        {
+            // constrain the pitch in landing as we get close to the flare
+            // point. Use a simple linear limit from 15 meters after the
+            // landing point
+            float time_to_flare = (- hgt_afe / _climb_rate) - aparm.land_flare_sec;
+            if (time_to_flare < 0) {
+                // we should be flaring already
+                _PITCHminf = max(_PITCHminf, aparm.land_pitch_cd * 0.01f);
+            } else if (time_to_flare < timeConstant()*2) {
+                // smoothly move the min pitch to the flare min pitch over
+                // twice the time constant
+                float p = time_to_flare/(2*timeConstant());
+                float pitch_limit_cd = p*(-4100 * 0.01f) + (1-p)*aparm.land_pitch_cd; //p*aparm.pitch_limit_min_cd + (1-p)*aparm.land_pitch_cd;
 #if 0
-            ::printf("ttf=%.1f hgt_afe=%.1f _PITCHminf=%.1f pitch_limit=%.1f climb=%.1f\n",
-                     time_to_flare, hgt_afe, _PITCHminf, pitch_limit_cd*0.01f, _climb_rate);
+                ::printf("ttf=%.1f hgt_afe=%.1f _PITCHminf=%.1f pitch_limit=%.1f climb=%.1f\n",
+                         time_to_flare, hgt_afe, _PITCHminf, pitch_limit_cd*0.01f, _climb_rate);
 #endif
-            _PITCHminf = max(_PITCHminf, pitch_limit_cd*0.01f); //may need to change this -D Cironi
+                _PITCHminf = max(_PITCHminf, pitch_limit_cd*0.01f); //may need to change this -D Cironi
+            }
         }
     }
 

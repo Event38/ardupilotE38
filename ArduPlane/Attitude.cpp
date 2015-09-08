@@ -487,14 +487,14 @@ void Plane::calc_nav_pitch()
     // --------------------------------
     nav_pitch_cd = SpdHgt_Controller->get_pitch_demand();
     
-    // if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH && g.pitch_limit_min_approach_cd != -1) //constrain differently if in landing approach
-    // {
-        // nav_pitch_cd = constrain_int32(nav_pitch_cd, g.pitch_limit_min_approach_cd, aparm.pitch_limit_max_cd.get());
-    // }
-    // else //constrain like normal
-    // {
+     if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH) //constrain differently if in landing approach
+     {
+        nav_pitch_cd = constrain_int32(nav_pitch_cd, -4100, aparm.pitch_limit_max_cd.get());
+     }
+     else //constrain like normal
+     {
         nav_pitch_cd = constrain_int32(nav_pitch_cd, pitch_limit_min_cd, aparm.pitch_limit_max_cd.get());
-    // }
+     }
     
 }
 

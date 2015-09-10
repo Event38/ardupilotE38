@@ -290,7 +290,7 @@ private:
 	float timeConstant(void) const;
     
     //variable for different pitch during land approach -D Cironi 2015-08-31
-    AP_Float pitch_limit_min_approach_cd;
+    AP_Float _lib_pitch_limit_min_approach_cd;
 };
 
 #define TECS_LOG_FORMAT(msg) { msg, sizeof(AP_TECS::log_TECS_Tuning),	\

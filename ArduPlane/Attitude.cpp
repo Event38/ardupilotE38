@@ -489,7 +489,7 @@ void Plane::calc_nav_pitch()
     
      if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH) //constrain differently if in landing approach
      {
-        nav_pitch_cd = constrain_int32(nav_pitch_cd, -4100, aparm.pitch_limit_max_cd.get());
+        nav_pitch_cd = constrain_int32(nav_pitch_cd, -4500, aparm.pitch_limit_max_cd.get());
      }
      else //constrain like normal
      {

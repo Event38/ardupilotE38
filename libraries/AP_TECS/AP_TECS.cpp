@@ -191,7 +191,7 @@ const AP_Param::GroupInfo AP_TECS::var_info[] PROGMEM = {
     // @Range: -9000 0
     // @Increment: 1
     // @User: Standard
-    AP_GROUPINFO("A_PIT_MIN",  21,  AP_TECS, pitch_limit_min_approach_cd, -45),
+    AP_GROUPINFO("A_PIT_MIN",  21,  AP_TECS, _lib_pitch_limit_min_approach_cd, -45),
 
     AP_GROUPEND
 };
@@ -827,7 +827,7 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
         _THRminf = 0;
     }     
     else if (flight_stage == FLIGHT_LAND_APPROACH) { //modified this - D Cironi 2015-09-08
-        _PITCHminf = -4100 * 0.01f; //will change to parameter if this works, both here and lower in this function
+        _PITCHminf = _lib_pitch_limit_min_approach_cd * 0.01f; //will change to parameter if this works, both here and lower in this function
         if((-_climb_rate) > _land_sink)
         {
             // constrain the pitch in landing as we get close to the flare
@@ -841,7 +841,7 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
                 // smoothly move the min pitch to the flare min pitch over
                 // twice the time constant
                 float p = time_to_flare/(2*timeConstant());
-                float pitch_limit_cd = p*(-4100 * 0.01f) + (1-p)*aparm.land_pitch_cd; //p*aparm.pitch_limit_min_cd + (1-p)*aparm.land_pitch_cd;
+                float pitch_limit_cd = p*(_lib_pitch_limit_min_approach_cd * 0.01f) + (1-p)*aparm.land_pitch_cd; //p*aparm.pitch_limit_min_cd + (1-p)*aparm.land_pitch_cd;
 #if 0
                 ::printf("ttf=%.1f hgt_afe=%.1f _PITCHminf=%.1f pitch_limit=%.1f climb=%.1f\n",
                          time_to_flare, hgt_afe, _PITCHminf, pitch_limit_cd*0.01f, _climb_rate);

@@ -770,12 +770,12 @@ int16_t Plane::calculate_approach_throttle(void)
     int16_t reverse_pwm_range = g.min_rev_pwm - adjustedMaxReversePWM;
     float error_proportion = 0;
     
-    //this will be used to set a specific throttle just before the flare point
-    if(adjusted_altitude_cm() <= g.pre_flare_alt && adjusted_altitude_cm() >= g.land_flare_alt)
-    {
-        throttle_out_pwm = g.pre_flare_thr;
-        return throttle_out_pwm;
-    }
+    // //this will be used to set a specific throttle just before the flare point
+    // if(adjusted_altitude_cm() <= g.pre_flare_alt && adjusted_altitude_cm() >= g.land_flare_alt)
+    // {
+        // throttle_out_pwm = g.pre_flare_thr;
+        // return throttle_out_pwm;
+    // }
     
 /*  if(alt_error <= 0) //we are above or at our target altitude
     {
@@ -809,6 +809,8 @@ int16_t Plane::calculate_approach_throttle(void)
     }
     
     throttle_out_pwm = constrain_int16(throttle_out_pwm, adjustedMaxReversePWM, g.min_rev_pwm); //stay within min and max reverse values (min is higher than max)
+    
+    gcs_send_text_P(SEVERITY_LOW,PSTR("Approach Throttle PWM: " + throttle_out_pwm));
     
     return throttle_out_pwm;
 }
@@ -972,13 +974,21 @@ void Plane::set_servos(void)
                 int16_t adjustedLandPWM = g.land_thr_pwm + bat_level_pwm_offset();
                 
                 //if we are past the land point, add more reverse throttle to kill our speed
-                if(location_passed_point(current_loc, prev_WP_loc, next_WP_loc))
+                if(location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(20)) //20 meters past landing point
                 {
-                    channel_throttle->radio_out = adjustedLandPWM - 100; //add more reverse throttle
+                    channel_throttle->radio_out = adjustedLandPWM - 300; //add a lot of reverse throttle
+                }
+                else if (location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(10)) //10 meters past
+                {
+                    channel_throttle->radio_out = adjustedLandPWM - 200;  //add a good amount of reverse throttle    
+                }
+                else if(location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(0)) //0 meters past
+                {
+                    channel_throttle->radio_out = adjustedLandPWM - 100;  //add a small amount of reverse throttle    
                 }
                 else
                 {
-                    channel_throttle->radio_out = adjustedLandPWM;  //set throttle to our battery adjusted parameter value    
+                    channel_throttle->radio_out = adjustedLandPWM; 
                 }
             }
             else

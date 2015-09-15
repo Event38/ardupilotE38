@@ -143,7 +143,7 @@ public:
         k_param_gcs_pid_mask,
         k_param_land_offset,
         k_param_land_slope,
-        k_param_pitch_limit_min_approach_cd,
+        //k_param_pitch_limit_min_approach_cd,
         k_param_approach_thr_pwm, //D Cironi
         k_param_land_thr_pwm,     //D Cironi
 
@@ -499,7 +499,7 @@ public:
     AP_Int16 gcs_pid_mask;
     AP_Int16 land_offset; //horizontally offset landing glide slope target
     AP_Float land_slope;  //user defined land glide slope
-    AP_Float pitch_limit_min_approach_cd; //min pitch angle for landing approach
+    //AP_Float pitch_limit_min_approach_cd; //min pitch angle for landing approach
     AP_Int16 approach_thr_pwm; //throttle PWM value during landing approach
     AP_Int16 land_thr_pwm; //throttle PWM during final stage of landing (after flare)
     AP_Int16 max_rev_pwm; //pwm value that gives 100% reverse throttle

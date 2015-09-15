@@ -736,17 +736,17 @@ int16_t Plane::bat_level_pwm_offset(void)
 {
     int16_t pwmOffset = 0;
     
-    if(battery.voltage() < 14.8)
+    if(battery.voltage() < 11.1)
     {
         pwmOffset = 0;
     }
-    else if(battery.voltage() > 16.8)
+    else if(battery.voltage() > 12.6)
     {
         pwmOffset = 100;
     }
     else
     {
-        float batteryLevel = (battery.voltage() - 14.8) / (16.8 - 14.8);
+        float batteryLevel = (battery.voltage() - 11.1) / (12.6 - 11.1);
         pwmOffset = (100 * batteryLevel);
     }
     
@@ -972,7 +972,9 @@ void Plane::set_servos(void)
             {
                 //offset based on battery level
                 int16_t adjustedLandPWM = g.land_thr_pwm + bat_level_pwm_offset();
+                channel_throttle->radio_out = adjustedLandPWM;
                 
+/*              We don't use this for the X5 - D Cironi 2015-09-15
                 //if we are past the land point, add more reverse throttle to kill our speed
                 if(location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(20)) //20 meters past landing point
                 {
@@ -989,7 +991,7 @@ void Plane::set_servos(void)
                 else
                 {
                     channel_throttle->radio_out = adjustedLandPWM; 
-                }
+                } */
             }
             else
             {

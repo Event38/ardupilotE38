@@ -810,8 +810,6 @@ int16_t Plane::calculate_approach_throttle(void)
     
     throttle_out_pwm = constrain_int16(throttle_out_pwm, adjustedMaxReversePWM, g.min_rev_pwm); //stay within min and max reverse values (min is higher than max)
     
-    gcs_send_text_P(SEVERITY_LOW,PSTR("Approach Throttle PWM: " + throttle_out_pwm));
-    
     return throttle_out_pwm;
 }
 
@@ -967,7 +965,7 @@ void Plane::set_servos(void)
             }
         }
         else if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL && control_mode == AUTO && !throttle_suppressed)
-        {       
+        {     
             if(g.land_thr_pwm != -1)
             {
                 //offset based on battery level
@@ -1005,7 +1003,7 @@ void Plane::set_servos(void)
                 {
                     if (disarm_motors()) 
                     {
-                       gcs_send_text_P(SEVERITY_LOW,PSTR("Auto-Disarmed"));
+                        gcs_send_text_P(SEVERITY_LOW,PSTR("Auto-Disarmed"));
                     }
                     channel_throttle->radio_out = 1300; //turn off throttle --D Cironi 2015-09-02
                 }

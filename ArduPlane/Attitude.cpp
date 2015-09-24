@@ -752,6 +752,21 @@ int16_t Plane::bat_level_pwm_offset(void)
     
     return pwmOffset;
 }
+
+/*****************************************
+* This is a very basic function to try and adjust the amount of reverse throttle so that we can hit a specific ground speed during approach - D Cironi 2015-08-21
+*****************************************/
+int16_t Plane::approach_target_speed_pwm_offset(void)
+{
+    int16_t pwmOffset = 0;
+    
+    float speedError = gps.ground_speed() - g.app_tar_spd;
+    
+    pwmOffset = (int16_t)(g.app_spd_const * speedError) ;
+    
+    return pwmOffset;
+}
+
 /*****************************************
 * Calculate the amount of reverse throttle to apply on approach -D Cironi 2015-08-10
 *****************************************/
@@ -807,6 +822,9 @@ int16_t Plane::calculate_approach_throttle(void)
         error_proportion = alt_error / g.zero_rev_pt_dn; //g.zero_rev_pt_dn is the altitude error from glide slope that we use the least amount of reverse throttle (this happens when we are below our land slope)
         throttle_out_pwm = adjustedMaxReversePWM + (reverse_pwm_range * error_proportion); //we will scale how much reverse throttle to use based on how far below the glide slope we are
     }
+    
+    //adjust reverse output based on groundspeed - D Cironi 2015-09-22
+    throttle_out_pwm = throttle_out_pwm - approach_target_speed_pwm_offset();
     
     throttle_out_pwm = constrain_int16(throttle_out_pwm, adjustedMaxReversePWM, g.min_rev_pwm); //stay within min and max reverse values (min is higher than max)
     

@@ -858,6 +858,7 @@ private:
     void set_servos_idle(void);
     int16_t calculate_approach_throttle(void); //D Cironi
     int16_t bat_level_pwm_offset(void); //D Cironi
+    int16_t approach_target_speed_pwm_offset(void); //D Cironi
     void set_servos();
     void update_aux();
     void determine_is_flying(void);

@@ -97,7 +97,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: The PWM level of the throttle during landing approach
     // @Range: 0 10000
     // @Increment: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(approach_thr_pwm,      "Z_APPR_THR_PWM",   0),
     
     // @Param: Z_LAND_THR_PWM
@@ -105,7 +105,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: The PWM level of the throttle during the final stage of landing
     // @Range: 0 10000
     // @Increment: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(land_thr_pwm,      "Z_LAND_THR_PWM",   0),
     
     // @Param: Z_MAX_REV_PWM
@@ -113,7 +113,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: PWM value that gives 100% reverse throttle
     // @Range: 0 10000
     // @Increment: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(max_rev_pwm,      "Z_MAX_REV_PWM",   0),
     
     // @Param: Z_MIN_REV_PWM
@@ -121,7 +121,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: PWM value that gives 0% reverse throttle
     // @Range: 0 10000
     // @Increment: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(min_rev_pwm,      "Z_MIN_REV_PWM",   0),
     
     // @Param: Z_ZERO_REV_PT_DN
@@ -129,7 +129,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: At this amount of altitude error from the land slope that we use the least amount of reverse throttle (this happens when we are below our land slope)
     // @Range: 0 10000
     // @Increments: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(zero_rev_pt_dn,      "Z_ZERO_REV_PT_DN",   0),
     
      // @Param: Z_ZERO_REV_PT_UP
@@ -137,7 +137,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: At this amount of altitude error from the land slope that we use the most amount of reverse throttle (this happens when we are above our land slope)
     // @Range: 0 10000
     // @Increments: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(zero_rev_pt_up,      "Z_ZERO_REV_PT_UP",   0),
     
     // @Param: Z_LAND_ELE_DEG
@@ -145,7 +145,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: Elevator deflection in degrees during final landing stage
     // @Range: -45 45
     // @Increments: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(land_ele_deg,      "Z_LAND_ELE_DEG",   0),
     
     // @Param: Z_PRE_FLARE_THR
@@ -153,7 +153,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: PWM value of throttle just before the flare
     // @Range: 0 10000
     // @Increments: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(pre_flare_thr,      "Z_PRE_FLARE_THR",   0),
     
     // @Param: Z_PRE_FLARE_ALT
@@ -161,8 +161,24 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Description: At what altitude will we prepare for the flare.
     // @Range: 0 10000
     // @Increments: 1
-    // @User: Standard
+    // @User: Advanced
     GSCALAR(pre_flare_alt,      "Z_PRE_FLARE_ALT",   0),
+    
+    // @Param: Z_APP_TAR_SPD
+    // @DisplayName: Approach Target Speed
+    // @Description: A rough target groundspeed the autopilot will try to reach during approach
+    // @Range: 
+    // @Increment: .1
+    // @User: Advanced
+    GSCALAR(app_tar_spd,      "Z_APP_TAR_SPD",   8),
+    
+    // @Param: Z_APP_SPD_CONST
+    // @DisplayName: Approach Speed Constant
+    // @Description: A constant used for calculating the amount of PWM offset based on target groundspeed error. (PWM_Offset = constant * speed_error)
+    // @Range: 
+    // @Increment: 1
+    // @User: Advanced
+    GSCALAR(app_spd_const,      "Z_APP_SPD_CONST",   50),
     
     // @Param: KFF_RDDRMIX
     // @DisplayName: Rudder Mix

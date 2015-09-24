@@ -56,6 +56,8 @@ public:
         //
         k_param_zero_rev_pt_dn, //D Cironi 3
         k_param_zero_rev_pt_up, //D Cironi 4
+        k_param_app_tar_spd, //D Cironi 5
+        k_param_app_spd_const, //D Cironi 6
         k_param_auto_trim      = 10,
         k_param_log_bitmask_old,  // unused
         k_param_pitch_trim_cd,
@@ -509,7 +511,8 @@ public:
     AP_Float land_ele_deg; //deflection of elevator during final flare stage     
     AP_Int16 pre_flare_thr; //throttle just before the flare
     AP_Int16 pre_flare_alt; //altitude at which we set pre-flare throttle
-    
+    AP_Int16 app_spd_const; //a constant used in the approach speed PWM offset
+    AP_Float app_tar_spd; //the target speed we will try to hit during approach
     // RC channels
     RC_Channel rc_1;
     RC_Channel rc_2;

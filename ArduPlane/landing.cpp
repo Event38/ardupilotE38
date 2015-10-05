@@ -46,14 +46,14 @@ bool Plane::verify_land()
     if (height <= g.land_flare_alt ||
         (aparm.land_flare_sec > 0 && height <= auto_state.sink_rate * aparm.land_flare_sec) ||
         //(!rangefinder_in_range && location_passed_point(current_loc, prev_WP_loc, next_WP_loc)) ||
-        (fabsf(auto_state.sink_rate) < 0.2f && !is_flying())) {
+        (fabsf(auto_state.sink_rate) < 0.2f && !is_flying()))  {
 
         if (!auto_state.land_complete) {
             if (!is_flying() && (millis()-auto_state.last_flying_ms) > 3000) {
                 gcs_send_text_fmt(PSTR("Flare crash detected: speed=%.1f"), (double)gps.ground_speed());
             } else {
-                gcs_send_text_fmt(PSTR("Flare %.1fm sink=%.2f speed=%.1f"), 
-                        (double)height, (double)auto_state.sink_rate, (double)gps.ground_speed());
+                gcs_send_text_fmt(PSTR("Flare %.1fm sink=%.2f speed=%.1f C=%.2f"), 
+                        (double)height, (double)auto_state.sink_rate, (double)gps.ground_speed(), (double)rangefinder_correction());
             }
         }
         auto_state.land_complete = true;

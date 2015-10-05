@@ -818,16 +818,20 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
         // in flare use min pitch from LAND_PITCH_CD
         _PITCHminf = max(_PITCHminf, aparm.land_pitch_cd * 0.01f);
 
-        // and use max pitch from TECS_LAND_PMAX
+        //changed this to use a different limit -D Cironi 2015-10-05
+        _PITCHmaxf = 0; //we don't want any upward pitch during flare as it shoots the plane upward
+        
+        /* // and use max pitch from TECS_LAND_PMAX
         if (_land_pitch_max > 0) {
             _PITCHmaxf = min(_PITCHmaxf, _land_pitch_max);
-        }
+        } */
         
         // and allow zero throttle
         _THRminf = 0;
     }     
     else if (flight_stage == FLIGHT_LAND_APPROACH) { //modified this - D Cironi 2015-09-08
         _PITCHminf = _lib_pitch_limit_min_approach_cd * 0.01f; //will change to parameter if this works, both here and lower in this function
+        _PITCHmaxf = -500 * 0.01f;
         if((-_climb_rate) > _land_sink)
         {
             // constrain the pitch in landing as we get close to the flare

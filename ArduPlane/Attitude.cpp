@@ -996,11 +996,11 @@ void Plane::set_servos(void)
                 //if we are past the land point, add more reverse throttle to kill our speed
                 if(location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(20)) //20 meters past landing point
                 {
-                    channel_throttle->radio_out = adjustedLandPWM - 300; //add a lot of reverse throttle
+                    channel_throttle->radio_out = adjustedLandPWM - 200; //add a lot of reverse throttle
                 }
                 else if (location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(10)) //10 meters past
                 {
-                    channel_throttle->radio_out = adjustedLandPWM - 200;  //add a good amount of reverse throttle    
+                    channel_throttle->radio_out = adjustedLandPWM - 150;  //add a good amount of reverse throttle    
                 }
                 else if(location_passed_point(current_loc, prev_WP_loc, next_WP_loc) && get_distance(current_loc, prev_WP_loc) > abs(0)) //0 meters past
                 {

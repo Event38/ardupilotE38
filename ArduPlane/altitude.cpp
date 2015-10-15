@@ -539,10 +539,7 @@ float Plane::rangefinder_correction(void)
     if (!using_rangefinder) {
         return 0;
     }
-
-    //gcs_send_text_fmt(PSTR("Correction %.2fm"), 
-    //                    (double)rangefinder_state.correction);
-                        
+                 
     return rangefinder_state.correction;
 #else
     return 0;
@@ -591,9 +588,6 @@ void Plane::rangefinder_height_update(void)
         // rangefinder estimate
         float correction = relative_altitude() - height_estimate;
         
-        gcs_send_text_fmt(PSTR("RA=%.1fm HE=%.1fm C=%.1fm"), 
-                (double)relative_altitude(), (double)height_estimate, (double)rangefinder_state.correction);    
-
 #if AP_TERRAIN_AVAILABLE
         // if we are terrain following then correction is based on terrain data
         float terrain_altitude;

@@ -789,12 +789,12 @@ int16_t Plane::calculate_approach_throttle(void)
     int16_t reverse_pwm_range = g.min_rev_pwm - adjustedMaxReversePWM;
     float error_proportion = 0;
     
-    // //this will be used to set a specific throttle just before the flare point
-    // if(adjusted_altitude_cm() <= g.pre_flare_alt && adjusted_altitude_cm() >= g.land_flare_alt)
-    // {
-        // throttle_out_pwm = g.pre_flare_thr;
-        // return throttle_out_pwm;
-    // }
+    //this will be used to set a specific throttle just before the flare point
+    if((((adjusted_altitude_cm() / 100) + rangefinder_correction()) <= g.pre_flare_alt) && (((adjusted_altitude_cm() / 100) + rangefinder_correction()) > g.land_flare_alt))
+    {
+        throttle_out_pwm = g.pre_flare_thr;
+        return throttle_out_pwm;
+    }
     
 /*  if(alt_error <= 0) //we are above or at our target altitude
     {

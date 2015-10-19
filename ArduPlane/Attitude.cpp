@@ -790,7 +790,7 @@ int16_t Plane::calculate_approach_throttle(void)
     float error_proportion = 0;
     
     //this will be used to set a specific throttle just before the flare point
-    if((((adjusted_altitude_cm() / 100) + rangefinder_correction()) <= g.pre_flare_alt) && (((adjusted_altitude_cm() / 100) + rangefinder_correction()) > g.land_flare_alt))
+    if(((relative_altitude() + rangefinder_correction()) <= g.pre_flare_alt) && ((relative_altitude() + rangefinder_correction()) > g.land_flare_alt))
     {
         throttle_out_pwm = g.pre_flare_thr;
         return throttle_out_pwm;

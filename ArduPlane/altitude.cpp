@@ -567,9 +567,9 @@ void Plane::rangefinder_height_update(void)
             rangefinder_state.in_range = true;
         }
         
-        //we also are only going tobe considered in range if we are under 30 meters according to barometer
+        //we also are only going to be considered in range if we are under 30 meters according to barometer
         //hopefully this avoids strange readings with SF02 rangefinder - D Cironi 2015-10-02
-        if(relative_altitude() <= 35 && rangefinder_state.in_range == true)
+        if(relative_altitude() <= 30 && rangefinder_state.in_range == true)
         {
             rangefinder_state.in_range = true;
         }

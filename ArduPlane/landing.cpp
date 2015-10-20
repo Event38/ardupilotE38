@@ -100,7 +100,7 @@ void Plane::disarm_if_autoland_complete()
     if (g.land_disarm_delay > 0 && 
         auto_state.land_complete && 
         !is_flying() && 
-        //arming.arming_required() != AP_Arming::NO && //removed this - D Cironi 2015-08-21
+        arming.arming_required() != AP_Arming::NO &&
         arming.is_armed()) {
         /* we have auto disarm enabled. See if enough time has passed */
         if (millis() - auto_state.last_flying_ms >= g.land_disarm_delay*1000UL) {

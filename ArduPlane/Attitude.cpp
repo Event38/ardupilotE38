@@ -487,13 +487,10 @@ void Plane::calc_nav_pitch()
     // --------------------------------
     nav_pitch_cd = SpdHgt_Controller->get_pitch_demand();
     
-     if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH) //constrain differently if in landing approach
+     if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH || flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL) //constrain differently if in landing approach
      {
-        nav_pitch_cd = constrain_int32(nav_pitch_cd, -4500, -500); //D Cironi, temporary hardcoded numbers
-     }
-     else if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL) //constrain differently if in landing flare
-     {
-        nav_pitch_cd = constrain_int32(nav_pitch_cd, -1000, 0); //D Cironi, temporary hardcoded numbers
+        //we shouldn't need to constrain pitch here because nav_pitch_cd  will be constrained already before this in AP_TECS -D Cironi 2015-10-21
+        nav_pitch_cd = nav_pitch_cd;
      }
      else //constrain like normal
      {

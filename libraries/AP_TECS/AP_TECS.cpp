@@ -188,10 +188,19 @@ const AP_Param::GroupInfo AP_TECS::var_info[] PROGMEM = {
     // @DisplayName: Minimum Approach Pitch Angle
     // @Description: The minimum pitch down angle during landing approach
     // @Units: centi-Degrees
-    // @Range: -9000 0
+    // @Range: -9000 9000
     // @Increment: 1
     // @User: Standard
-    AP_GROUPINFO("A_PIT_MIN",  21,  AP_TECS, _lib_pitch_limit_min_approach_cd, -45),
+    AP_GROUPINFO("A_PIT_MIN",  21,  AP_TECS, _lib_pitch_limit_min_approach_cd, -4100),
+    
+    // @Param: A_PIT_MAX
+    // @DisplayName: Maximum Approach Pitch Angle
+    // @Description: The maximum pitch up angle during landing approach
+    // @Units: centi-Degrees
+    // @Range: -9000 9000
+    // @Increment: 1
+    // @User: Standard
+    AP_GROUPINFO("A_PIT_MAX",  22,  AP_TECS, _lib_pitch_limit_max_approach_cd, -500),
 
     AP_GROUPEND
 };
@@ -817,21 +826,21 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
     if (flight_stage == FLIGHT_LAND_FINAL) {
         // in flare use min pitch from LAND_PITCH_CD
         _PITCHminf = max(_PITCHminf, aparm.land_pitch_cd * 0.01f);
-
-        //changed this to use a different limit -D Cironi 2015-10-05
-        _PITCHmaxf = 0; //we don't want any upward pitch during flare as it shoots the plane upward
         
-        /* // and use max pitch from TECS_LAND_PMAX
-        if (_land_pitch_max > 0) {
-            _PITCHmaxf = min(_PITCHmaxf, _land_pitch_max);
-        } */
+        // and use max pitch from TECS_LAND_PMAX
+        _PITCHmaxf = _land_pitch_max;
+        
+        //commented out -D Cironi 2015-10-20
+        // if (_land_pitch_max > 0) {
+            // _PITCHmaxf = min(_PITCHmaxf, _land_pitch_max);
+        // }
         
         // and allow zero throttle
         _THRminf = 0;
     }     
     else if (flight_stage == FLIGHT_LAND_APPROACH) { //modified this - D Cironi 2015-09-08
-        _PITCHminf = _lib_pitch_limit_min_approach_cd * 0.01f; //will change to parameter if this works, both here and lower in this function
-        _PITCHmaxf = -500 * 0.01f;
+        _PITCHminf = _lib_pitch_limit_min_approach_cd * 0.01f;
+        _PITCHmaxf = _lib_pitch_limit_max_approach_cd * 0.01f;
         if((-_climb_rate) > _land_sink)
         {
             // constrain the pitch in landing as we get close to the flare

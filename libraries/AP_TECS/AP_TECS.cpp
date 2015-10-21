@@ -184,23 +184,23 @@ const AP_Param::GroupInfo AP_TECS::var_info[] PROGMEM = {
 	// @User: Advanced
     AP_GROUPINFO("LAND_PMAX", 20, AP_TECS, _land_pitch_max, 10),
     
-    // @Param: A_PIT_MIN
+    // @Param: APPR_PMIN
     // @DisplayName: Minimum Approach Pitch Angle
     // @Description: The minimum pitch down angle during landing approach
     // @Units: centi-Degrees
     // @Range: -9000 9000
     // @Increment: 1
     // @User: Standard
-    AP_GROUPINFO("A_PIT_MIN",  21,  AP_TECS, _lib_pitch_limit_min_approach_cd, -4100),
+    AP_GROUPINFO("APPR_PMIN",  21,  AP_TECS, _lib_pitch_limit_min_approach_cd, -4100),
     
-    // @Param: A_PIT_MAX
+    // @Param: APPR_PMAX
     // @DisplayName: Maximum Approach Pitch Angle
     // @Description: The maximum pitch up angle during landing approach
     // @Units: centi-Degrees
     // @Range: -9000 9000
     // @Increment: 1
     // @User: Standard
-    AP_GROUPINFO("A_PIT_MAX",  22,  AP_TECS, _lib_pitch_limit_max_approach_cd, -500),
+    AP_GROUPINFO("APPR_PMAX",  22,  AP_TECS, _lib_pitch_limit_max_approach_cd, -500),
 
     AP_GROUPEND
 };

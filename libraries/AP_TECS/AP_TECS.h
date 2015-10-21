@@ -29,8 +29,8 @@
 #include <AP_SpdHgtControl.h>
 #include <DataFlash.h>
 
-#define A_PIT_MIN       -4100
-#define A_PIT_MAX       -500
+#define APPR_PMIN       -4100
+#define APPR_PMAX       -500
 
 class AP_TECS : public AP_SpdHgtControl {
 public:

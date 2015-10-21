@@ -575,7 +575,6 @@ void Plane::rangefinder_height_update(void)
         }
         else
         {
-            rangefinder_state.in_range_count = 0;
             rangefinder_state.in_range = false;
         }
         

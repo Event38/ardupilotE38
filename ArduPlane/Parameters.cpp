@@ -768,7 +768,7 @@ const AP_Param::Info Plane::var_info[] PROGMEM = {
     // @Increment: 1
     // @User: Standard
     ASCALAR(pitch_limit_min_cd,     "LIM_PITCH_MIN",  PITCH_MIN_CENTIDEGREE),
-    
+
     // @Param: ACRO_ROLL_RATE
     // @DisplayName: ACRO mode roll rate
     // @Description: The maximum roll rate at full stick deflection in ACRO mode

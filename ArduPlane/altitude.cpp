@@ -539,7 +539,7 @@ float Plane::rangefinder_correction(void)
     if (!using_rangefinder) {
         return 0;
     }
-                 
+
     return rangefinder_state.correction;
 #else
     return 0;
@@ -567,8 +567,9 @@ void Plane::rangefinder_height_update(void)
             rangefinder_state.in_range = true;
         }
         
+        //this needs to be a parameter
         //we also are only going to be considered in range if we are under 30 meters according to barometer
-        //hopefully this avoids strange readings with SF02 rangefinder - D Cironi 2015-10-02
+        //hopefully this avoids false low value readings with SF02 rangefinder, and 30 meters should give us enough room even with baro drift - D Cironi 2015-10-02
         if(relative_altitude() <= 30 && rangefinder_state.in_range == true)
         {
             rangefinder_state.in_range = true;
@@ -582,12 +583,12 @@ void Plane::rangefinder_height_update(void)
         rangefinder_state.in_range_count = 0;
         rangefinder_state.in_range = false;
     }
-                    
+
     if (rangefinder_state.in_range) {
         // base correction is the difference between baro altitude and
         // rangefinder estimate
         float correction = relative_altitude() - height_estimate;
-        
+
 #if AP_TERRAIN_AVAILABLE
         // if we are terrain following then correction is based on terrain data
         float terrain_altitude;
@@ -596,7 +597,7 @@ void Plane::rangefinder_height_update(void)
             correction = terrain_altitude - height_estimate;
         }
 #endif    
-                    
+
         // remember the last correction. Use a low pass filter unless
         // the old data is more than 5 seconds old
         if (millis() - rangefinder_state.last_correction_time_ms > 5000) {
@@ -604,7 +605,7 @@ void Plane::rangefinder_height_update(void)
         } else {
             rangefinder_state.correction = 0.8f*rangefinder_state.correction + 0.2f*correction;
         }
-        rangefinder_state.last_correction_time_ms = millis();                 
+        rangefinder_state.last_correction_time_ms = millis();
     }
 }
 #endif

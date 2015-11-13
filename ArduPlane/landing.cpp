@@ -52,7 +52,7 @@ bool Plane::verify_land()
             if (!is_flying() && (millis()-auto_state.last_flying_ms) > 3000) {
                 gcs_send_text_fmt(PSTR("Flare crash detected: speed=%.1f"), (double)gps.ground_speed());
             } else {
-                gcs_send_text_fmt(PSTR("Flare %.1fm sink=%.2f speed=%.1f C=%.2f"), 
+                gcs_send_text_fmt(PSTR("Flare %.1fm sink=%.2f speed=%.1f C=%.2f"), //I added this "C" value to make sure our rangefinder is working and creating a correction rather than returning zero - D Cironi
                         (double)height, (double)auto_state.sink_rate, (double)gps.ground_speed(), (double)rangefinder_correction());
             }
         }
@@ -171,7 +171,6 @@ void Plane::setup_landing_glide_slope(void)
         if (flare_distance > total_distance/2) {
             flare_distance = total_distance/2;
         }
-        
         // now calculate our aim point, which is before the landing
         // point and above it
         location_update(loc, land_bearing_cd*0.01f, -flare_distance);

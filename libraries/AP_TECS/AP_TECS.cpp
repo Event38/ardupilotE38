@@ -813,20 +813,20 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
 	// if TECS_PITCH_{MAX,MIN} isn't set then use
 	// LIM_PITCH_{MAX,MIN}. Don't allow TECS_PITCH_{MAX,MIN} to be
 	// larger than LIM_PITCH_{MAX,MIN}
-	if (_pitch_max <= 0) {
-		_PITCHmaxf = aparm.pitch_limit_max_cd * 0.01f;
-	} else {
-		_PITCHmaxf = min(_pitch_max, aparm.pitch_limit_max_cd * 0.01f);
-	}
-    if (_pitch_min >= 0) {
-        _PITCHminf = aparm.pitch_limit_min_cd * 0.01f;
-    } else {
-        _PITCHminf = max(_pitch_min, aparm.pitch_limit_min_cd * 0.01f);
-    }
+   if (_pitch_max <= 0) {
+       _PITCHmaxf = aparm.pitch_limit_max_cd * 0.01f;
+   } else {
+       _PITCHmaxf = min(_pitch_max, aparm.pitch_limit_max_cd * 0.01f);
+   }
+   if (_pitch_min >= 0) {
+       _PITCHminf = aparm.pitch_limit_min_cd * 0.01f;
+   } else {
+       _PITCHminf = max(_pitch_min, aparm.pitch_limit_min_cd * 0.01f);
+   }
     if (flight_stage == FLIGHT_LAND_FINAL) {
         // in flare use min pitch from LAND_PITCH_CD
         _PITCHminf = max(_PITCHminf, aparm.land_pitch_cd * 0.01f);
-        
+
         // and use max pitch from TECS_LAND_PMAX
         _PITCHmaxf = _land_pitch_max;
         
@@ -856,10 +856,10 @@ void AP_TECS::update_pitch_throttle(int32_t hgt_dem_cm,
                 float p = time_to_flare/(2*timeConstant());
                 float pitch_limit_cd = p*(_lib_pitch_limit_min_approach_cd * 0.01f) + (1-p)*aparm.land_pitch_cd; //p*aparm.pitch_limit_min_cd + (1-p)*aparm.land_pitch_cd;
 #if 0
-                ::printf("ttf=%.1f hgt_afe=%.1f _PITCHminf=%.1f pitch_limit=%.1f climb=%.1f\n",
-                         time_to_flare, hgt_afe, _PITCHminf, pitch_limit_cd*0.01f, _climb_rate);
+            ::printf("ttf=%.1f hgt_afe=%.1f _PITCHminf=%.1f pitch_limit=%.1f climb=%.1f\n",
+                     time_to_flare, hgt_afe, _PITCHminf, pitch_limit_cd*0.01f, _climb_rate);
 #endif
-                _PITCHminf = max(_PITCHminf, pitch_limit_cd*0.01f); //may need to change this -D Cironi
+            _PITCHminf = max(_PITCHminf, pitch_limit_cd*0.01f); //may need to change this -D Cironi
             }
         }
     }

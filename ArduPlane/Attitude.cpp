@@ -487,16 +487,15 @@ void Plane::calc_nav_pitch()
     // --------------------------------
     nav_pitch_cd = SpdHgt_Controller->get_pitch_demand();
     
-     if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH || flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL) //constrain differently if in landing approach
-     {
-        //we shouldn't need to constrain pitch here because nav_pitch_cd  will be constrained already before this in AP_TECS -D Cironi 2015-10-21
-        nav_pitch_cd = nav_pitch_cd;
-     }
-     else //constrain like normal
-     {
-        nav_pitch_cd = constrain_int32(nav_pitch_cd, pitch_limit_min_cd, aparm.pitch_limit_max_cd.get());
-     }
-    
+    if(flight_stage == AP_SpdHgtControl::FLIGHT_LAND_APPROACH || flight_stage == AP_SpdHgtControl::FLIGHT_LAND_FINAL) //constrain differently if in landing approach/landing final
+    {
+       //we shouldn't need to constrain pitch here because nav_pitch_cd  will be constrained already before this in AP_TECS -D Cironi 2015-10-21
+       nav_pitch_cd = nav_pitch_cd;
+    }
+    else //constrain like normal
+    {
+       nav_pitch_cd = constrain_int32(nav_pitch_cd, pitch_limit_min_cd, aparm.pitch_limit_max_cd.get());
+    }   
 }
 
 
@@ -786,32 +785,13 @@ int16_t Plane::calculate_approach_throttle(void)
     int16_t reverse_pwm_range = g.min_rev_pwm - adjustedMaxReversePWM;
     float error_proportion = 0;
     
-    //this will be used to set a specific throttle just before the flare point
+    //pre-flare stuff
+    //this will be used to set a specific throttle just before the flare point - D Cironi
     if(((relative_altitude() + rangefinder_correction()) <= g.pre_flare_alt) && ((relative_altitude() + rangefinder_correction()) > g.land_flare_alt))
     {
         throttle_out_pwm = g.pre_flare_thr;
         return throttle_out_pwm;
-    }
-    
-/*  if(alt_error <= 0) //we are above or at our target altitude
-    {
-        if (alt_error >= -300 && alt_error <= -200) //between 3 and 2 meters too high 
-        {
-            throttle_out_pwm = g.max_rev_pwm * .75; //give 75% full reverse
-        }
-        else if(alt_error >= -200 && alt_error <= -100) //2 to 1 meters too high
-        {
-            throttle_out_pwm = g.max_rev_pwm * .50; //give 50% full reverse
-        }
-        else if(alt_error >= -100 && alt_error <= 0)
-        {
-            throttle_out_pwm = g.max_rev_pwm * .25; //give 25% full reverse
-        }
-        else
-        {
-            throttle_out_pwm = g.max_rev_pwm; //use full reverse throttle
-        }
-    } */
+    }   
     
     if(alt_error <= 0) //we are above our target altitude
     {
@@ -838,7 +818,7 @@ int16_t Plane::calculate_approach_throttle(void)
 void Plane::set_servos(void)
 {
     int16_t last_throttle = channel_throttle->radio_out;
-    
+
     if (control_mode == AUTO && auto_state.idle_mode) {
         // special handling for balloon launch
         set_servos_idle();
@@ -1030,6 +1010,7 @@ void Plane::set_servos(void)
             //
         } 
         //
+        //normal operation
         else if (!hal.util->get_soft_armed()) {
             channel_throttle->servo_out = 0;
             channel_throttle->calc_pwm();                
